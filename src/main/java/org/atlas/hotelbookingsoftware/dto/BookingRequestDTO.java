@@ -13,6 +13,8 @@ public class BookingRequestDTO {
 
     private Long userId;
 
+    private LocalDate checkInDate;
+
     private LocalDate checkOutDate;
 
     private String roomType;

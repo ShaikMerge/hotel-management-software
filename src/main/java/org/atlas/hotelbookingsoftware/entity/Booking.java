@@ -24,7 +24,7 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String booking_id;
 
-    @CreationTimestamp
+
     private LocalDate checkInDate;
 
     private LocalDate checkOutDate;

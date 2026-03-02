@@ -20,12 +20,7 @@ public class RoomService {
     public List<Room> createRooms(List<Room> rooms, Long hotelId) {
         Hotel hotel = hotelRepository.findById(hotelId).
                 orElseThrow(() -> new RuntimeException("Hotel Not Found for id " + hotelId));
-        List<Room> roomsList = rooms.stream().map(room -> {
-            room.setHotel(hotel);
-            roomRepository.save(room);
-            return room;
-
-        }).collect(Collectors.toList());
-        return roomsList;
+        rooms.forEach(room -> room.setHotel(hotel));
+        return roomRepository.saveAll(rooms);
     }
 }

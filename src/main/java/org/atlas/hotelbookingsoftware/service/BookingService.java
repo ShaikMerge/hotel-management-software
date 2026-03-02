@@ -13,6 +13,8 @@ import org.atlas.hotelbookingsoftware.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,10 +46,11 @@ public class BookingService {
                         }).toList();
 
         Booking booking = new Booking();
+        booking.setCheckInDate(bookingRequestDTO.getCheckInDate());
         booking.setCheckOutDate(bookingRequestDTO.getCheckOutDate());
         booking.setUser_id(user);
         booking.setRooms(avaliableRooms);
-        booking.setTotalPrice(calcuateTotalPrice(avaliableRooms, bookingRequestDTO.getCheckOutDate()));
+        booking.setTotalPrice(calcuateTotalPrice(avaliableRooms, bookingRequestDTO.getCheckOutDate(), bookingRequestDTO.getCheckInDate()));
         booking.setBookingStatus(BookingStatus.PENDING);
         // Implement an Order Service ?
       return   bookingRepository.save(booking);
@@ -55,9 +58,15 @@ public class BookingService {
     }
 
     // Will Implement Later
-    private Double calcuateTotalPrice(List<Room> avaliableRooms, LocalDate checkOutDate) {
+    private Double calcuateTotalPrice(List<Room> avaliableRooms, LocalDate checkOutDate, LocalDate checkInDate) {
 
-        return 1000.2;
+        long totalDays = ChronoUnit.DAYS.between(checkInDate, checkOutDate);
+
+        Double totalPrice = avaliableRooms.stream()
+                .mapToDouble(Room::getPricePerNight)
+                .sum();
+
+        return totalPrice * totalDays;
 
     }
 }
