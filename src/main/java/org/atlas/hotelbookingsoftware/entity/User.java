@@ -1,33 +1,29 @@
 package org.atlas.hotelbookingsoftware.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Room {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long  user_id;
 
+    @Column(name = "user_name", nullable = false)
+    private String userName;
 
-    private String roomType;
+    @Column(nullable = false)
+    private String email;
 
-
-    private Long roomNumber;
-
-    @Column(name = "pricePerNight")
-    private Double pricePerNight;
-
-    @ManyToOne
-    @JoinColumn(name = "hotel_id")
-    private Hotel hotel;
+    @OneToMany(mappedBy = "user_id")
+    private List<Booking> bookings;
 
 }

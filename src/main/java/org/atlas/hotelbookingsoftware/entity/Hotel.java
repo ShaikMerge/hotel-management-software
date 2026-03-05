@@ -1,11 +1,18 @@
 package org.atlas.hotelbookingsoftware.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Hotel {
 
 
@@ -22,6 +29,7 @@ public class Hotel {
 
     private String description;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "hotel")  //Owning side
     List<Room> rooms;
 
